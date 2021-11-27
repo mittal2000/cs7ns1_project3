@@ -18,5 +18,4 @@ run a p2p server at 127.0.x2.y:443(internal)
 - periodically send healthz request to sensors,
   - if 200 OK, do nothing
   - otherwise, remove it from device list
-- periodically send register message to only the gateway, then send device data to them.
-
+- periodically send register message to other networks, then send collected data to them, then get list from them and update the local list
