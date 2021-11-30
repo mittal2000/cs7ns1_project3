@@ -64,58 +64,13 @@ func fetchExternalNodes() {
 	for _, name := range nodes {
 		register(name, externalPort, externalHostName)
 		externalMessage(name, externalPort, externalHostName)
-		externalUpdateList(name, externalPort, externalHostName)
-	}
-}
-
-func externalUpdateList(host string, port int, local string) {
-	request := &entities.ListRequest{
-		Token: clientToken[host],
-	}
-
-	data, err := json.Marshal(request)
-	if err != nil {
-		logger.Error(err)
-		return
-	}
-
-	resp, err := client.Post(getUrl(host, port, "/list"),
-		"application/json", strings.NewReader(string(data)))
-	if err != nil {
-		logger.Error(err)
-		return
-	}
-	defer resp.Body.Close()
-
-	response := &entities.ListResponse{}
-	body, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		logger.Error(err)
-		return
-	}
-	json.Unmarshal(body, response)
-
-	if resp.StatusCode != http.StatusOK {
-		logger.Error(errors.New(response.Reason))
-		return
-	}
-
-	if !response.Status {
-		logger.Error(errors.New(response.Reason))
-		return
-	}
-
-	for _, name := range response.Nodes {
-		if _, find := external.Record.FindByName(name); !find {
-			external.Record.Add(entities.GenToken(name), name)
-		}
 	}
 }
 
 func externalMessage(host string, port int, local string) {
 	logger.Infof("Post message from %s to: %s:%d", local, host, port)
 
-	gwData, err := json.Marshal(gatewayDataMap[externalHostName])
+	gwData, err := json.Marshal(deviceDataMap[externalHostName])
 	if err != nil {
 		logger.Error(err)
 		return

@@ -4,7 +4,7 @@ sign() {
     openssl genrsa -out $1.key 2048
     openssl req -new -out $1.csr -key $1.key \
         -reqexts SAN \
-        -subj "/C=IE/ST=Dublin/L=Dublin/O=TCD/OU=SCSS/CN=$3"
+        -subj "/C=IE/ST=Dublin/L=Dublin/O=TCD/OU=SCSS/CN=rasp-*.scss.tcd.ie/CN=127.*.*.*"
     openssl ca -in $1.csr -out $1.crt \
         -extensions SAN
         
@@ -12,11 +12,7 @@ sign() {
 }
 
 main() {
-    rm -r $1
-    mkdir $1
-    sign $1/external.server $2 rasp-*.scss.tcd.ie
-    sign $1/internal.server $2 127.*.*.*
-    sign $1/client $2 CLIENT
+    sign $1/bundled $2
 }
 
 main $1 $2

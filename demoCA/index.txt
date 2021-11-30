@@ -1,3 +1,1 @@
-V	221126033529Z		01	unknown	/C=IE/ST=Dublin/O=TCD/OU=SCSS/CN=rasp-*.scss.tcd.ie
-V	221126033531Z		02	unknown	/C=IE/ST=Dublin/O=TCD/OU=SCSS/CN=127.*.*.*
-V	221126033532Z		03	unknown	/C=IE/ST=Dublin/O=TCD/OU=SCSS/CN=CLIENT
+V	221129233852Z		00	unknown	/C=IE/ST=Dublin/O=TCD/OU=SCSS/CN=rasp-*.scss.tcd.ie/CN=127.*.*.*

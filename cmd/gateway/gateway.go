@@ -48,6 +48,7 @@ func externalMsgCbk(name string, req *entities.MessageRequest) {
 	str, err := json.Marshal(gatewayDataMap)
 	if err != nil {
 		logger.Error(err)
+		return
 	}
 
 	ioutil.WriteFile(dir+"/data.json", str, 0644)
@@ -65,6 +66,7 @@ func internalMsgCbk(name string, req *entities.MessageRequest) {
 	str, err := json.Marshal(gatewayDataMap)
 	if err != nil {
 		logger.Error(err)
+		return
 	}
 
 	ioutil.WriteFile(dir+"/data.json", str, 0644)
@@ -79,9 +81,6 @@ func runBackground(fn func()) {
 }
 
 func init() {
-	clientToken = make(map[string]string)
-	gatewayDataMap = make(map[string]entities.GatewayData)
-
 	logger = log.New(os.Stderr)
 
 	flag.StringVar(&dir, "dir", ".", "directory to save data")
@@ -92,28 +91,37 @@ func init() {
 	flag.StringVar(&initialIndexHost, "index", "rasp-019.scss.tcd.ie", "")
 	flag.Parse()
 
+	clientToken = make(map[string]string)
+	gatewayDataMap = make(map[string]entities.GatewayData)
+	gatewayDataMap[externalHostName] = entities.GatewayData{
+		Name: externalHostName,
+		Data: make(map[string]entities.DeviceData),
+	}
+
 	internal = p2pserver.NewServer(internalHostName, internalPort,
-		dir+"/internal.server.key",
-		dir+"/internal.server.crt",
+		dir+"/bundled.key",
+		dir+"/bundled.crt",
 		dir+"/ca.crt",
 		internalMsgCbk)
 
 	external = p2pserver.NewServer(externalHostName, externalPort,
-		dir+"/external.server.key",
-		dir+"/external.server.crt",
+		dir+"/bundled.key",
+		dir+"/bundled.crt",
 		dir+"/ca.crt",
 		externalMsgCbk)
 
 	external.Record.Add(entities.GenToken(initialIndexHost), initialIndexHost)
 
-	certPair, err := tls.LoadX509KeyPair(dir+"/client.crt", dir+"/client.key")
+	certPair, err := tls.LoadX509KeyPair(dir+"/bundled.crt", dir+"/bundled.key")
 	if err != nil {
 		logger.Error(err)
+		return
 	}
 
 	caCert, err := ioutil.ReadFile(dir + "/ca.crt")
 	if err != nil {
 		logger.Error(err)
+		return
 	}
 	caCertPool := x509.NewCertPool()
 	caCertPool.AppendCertsFromPEM(caCert)
