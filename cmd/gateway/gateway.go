@@ -32,6 +32,7 @@ var (
 	client   *http.Client
 
 	wg sync.WaitGroup
+	mu sync.Mutex
 
 	logger *log.Logger
 )
@@ -61,7 +62,9 @@ func internalMsgCbk(name string, req *entities.MessageRequest) {
 		return
 	}
 
+	mu.Lock()
 	gatewayDataMap[externalHostName].Data[name] = *data
+	mu.Unlock()
 
 	str, err := json.Marshal(gatewayDataMap)
 	if err != nil {
