@@ -1,5 +1,5 @@
 # Network
-
+# Anoushka Mittal
 one possible structure
 
 ## Gateway
@@ -9,7 +9,7 @@ one possible structure
 | net1 | rasp-019.scss.tcd.ie:33000 | 127.0.0.1:443 |
 | net2 | rasp-020.scss.tcd.ie:33000 | 127.0.0.1:443 |
 
-## Devices 
+## Devices
 
 | device name | listen1 | listen2 |
 | - | - | - |

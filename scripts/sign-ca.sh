@@ -1,5 +1,5 @@
 #!/usr/bin/env sh
-
+# Misbah Rizaee
 main() {
     openssl genrsa -out $1.key 1024
     openssl req -new -x509 -days 3650 \

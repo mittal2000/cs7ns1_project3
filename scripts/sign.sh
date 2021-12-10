@@ -1,5 +1,5 @@
 #!/usr/bin/env sh
-
+# Misbah Rizaee
 sign() {
     openssl genrsa -out $1.key 2048
     openssl req -new -out $1.csr -key $1.key \
@@ -7,7 +7,7 @@ sign() {
         -subj "/C=IE/ST=Dublin/L=Dublin/O=TCD/OU=SCSS/CN=rasp-*.scss.tcd.ie/CN=127.*.*.*"
     openssl ca -in $1.csr -out $1.crt \
         -extensions SAN
-        
+
     rm $1.csr
 }
 

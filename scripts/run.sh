@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-
+# Swati Poojary
 main() {
     rm -r $1
 

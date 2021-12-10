@@ -1,5 +1,5 @@
 package entities
-
+// Yue Yu
 import (
 	"crypto/sha256"
 	"fmt"

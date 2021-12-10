@@ -1,5 +1,5 @@
 package entities
-
+// Yue Yu
 type (
 	RegisterRequest struct {
 		Name string `json:"name"`
